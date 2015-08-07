@@ -97,10 +97,16 @@ mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesom
 mylauncher = awful.widget.launcher({ image = image(beautiful.awesome_icon),
                                      menu = mymainmenu })
 -- }}}
-
+seperator = widget({ type = "textbox" })
+seperator.text = " :: "
 -- {{{ Wibox
 -- Create a textclock widget
 mytextclock = awful.widget.textclock({ align = "right" })
+netwidget = widget({ type = "textbox" })
+vicious.register(netwidget, vicious.widgets.net, '<span color="#CC9393">${eth0 down_kb}</span> <span color="#7F9F7F">${eth0 up_kb}</span>', 3)
+
+memwidget = widget({ type = "textbox" })
+vicious.register(memwidget, vicious.widgets.mem, "$1% ($2MB/$3MB)", 13)
 
 -- Create a systray
 mysystray = widget({ type = "systray" })
@@ -181,6 +187,11 @@ for s = 1, screen.count() do
         },
         mylayoutbox[s],
         mytextclock,
+        seperator,
+        netwidget,
+        seperator,
+        memwidget,
+        seperator,
         s == 1 and mysystray or nil,
         mytasklist[s],
         layout = awful.widget.layout.horizontal.rightleft
